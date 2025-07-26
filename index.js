@@ -20,6 +20,7 @@ const faqPageRoute = require('./src/routes/faqpage.js');
 const subscribePageRoutes = require('./src/routes/subscribepage');
 const footerPageRoutes = require('./src/routes/footerpage');
 const blogPageRoutes = require('./src/routes/blogpage');
+const navbarPageRoutes = require('./src/routes/navbarpage');
 
 // Load environment variables
 dotenv.config();
@@ -57,6 +58,7 @@ app.use('/api/faqpage', faqPageRoute);
 app.use('/api/subscribepage', subscribePageRoutes);
 app.use('/api/footerpage', footerPageRoutes);
 app.use('/api/blogpage', blogPageRoutes);
+app.use('/api/navbarpage', navbarPageRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
