@@ -1,5 +1,5 @@
-import express from 'express';
-import Message from '../models/Message.js';
+const express = require('express');
+const Message = require('../models/Message.js');
 
 const router = express.Router();
 
@@ -28,4 +28,4 @@ router.get('/messages', async (req, res) => {
   }
 });
 
-export default router; 
+module.exports = router; 
