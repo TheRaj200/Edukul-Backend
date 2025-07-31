@@ -49,12 +49,16 @@ const BlogPageSchema = new mongoose.Schema({
   featured: {
     type: Boolean,
     default: false
+  },
+  tags: {
+    type: [String],
+    default: []
   }
 }, { 
   timestamps: true 
 });
 
-// Generate slug from title before saving
+
 BlogPageSchema.pre('save', function(next) {
   if (!this.slug && this.title) {
     let slug = this.title
@@ -64,7 +68,7 @@ BlogPageSchema.pre('save', function(next) {
       .replace(/-+/g, '-')
       .trim('-');
     
-    // Add timestamp to ensure uniqueness
+   
     if (slug) {
       slug = slug + '-' + Date.now();
     }
@@ -74,4 +78,4 @@ BlogPageSchema.pre('save', function(next) {
   next();
 });
 
-module.exports = mongoose.model('BlogPage', BlogPageSchema); 
+module.exports = mongoose.model('BlogPage', BlogPageSchema);

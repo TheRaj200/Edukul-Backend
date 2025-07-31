@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const TeamPage = require('../models/TeamPage');
 
-// Update or create TeamPage content
+
 router.put('/', async (req, res) => {
   const { label, heading, team } = req.body;
   try {
@@ -22,7 +22,7 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Get TeamPage content
+
 router.get('/', async (req, res) => {
   try {
     const teamPage = await TeamPage.findOne();

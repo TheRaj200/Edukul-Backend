@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const SubscribePage = require('../models/SubscribePage');
 
-// GET /api/subscribepage/ - fetch subscribe section
+
 router.get('/', async (req, res) => {
   try {
     const data = await SubscribePage.findOne();
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/subscribepage/ - update or create subscribe section
+
 router.put('/', async (req, res) => {
   const { heading, subheading, buttonText, socialIcons } = req.body;
   try {

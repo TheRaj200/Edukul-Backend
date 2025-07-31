@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ServicesPage = require('../models/ServicesPage');
 
-// Update or create ServicesPage content
+
 router.put('/', async (req, res) => {
   const { tagline, heading, services, discussLink } = req.body;
   try {
@@ -23,7 +23,7 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Get ServicesPage content
+
 router.get('/', async (req, res) => {
   try {
     const servicesPage = await ServicesPage.findOne();

@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-// Hardcoded admin credentials
+
 const ADMIN_EMAIL = 'admin@gmail.com';
 const ADMIN_PASSWORD = 'admin@123';
 

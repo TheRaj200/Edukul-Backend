@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const FooterPage = require('../models/FooterPage');
 
-// GET /api/footerpage/ - fetch footer content
+
 router.get('/', async (req, res) => {
   try {
     const data = await FooterPage.findOne();
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/footerpage/ - update or create footer content
+
 router.put('/', async (req, res) => {
   const { 
     logo, 
@@ -34,7 +34,7 @@ router.put('/', async (req, res) => {
   try {
     let data = await FooterPage.findOne();
     if (data) {
-      // Update existing data
+
       data.logo = logo || data.logo;
       data.aboutHeading = aboutHeading || data.aboutHeading;
       data.address1 = address1 || data.address1;
@@ -48,7 +48,7 @@ router.put('/', async (req, res) => {
       data.social = social || data.social;
       await data.save();
     } else {
-      // Create new data
+
       data = new FooterPage({ 
         logo, 
         aboutHeading, 

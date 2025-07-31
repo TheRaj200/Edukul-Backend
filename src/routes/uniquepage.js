@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UniquePage = require('../models/UniquePage');
 
-// GET /api/uniquepage/ - fetch unique page data
+
 router.get('/', async (req, res) => {
   try {
     const data = await UniquePage.findOne();
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/uniquepage/ - update or create unique page data
+
 router.put('/', async (req, res) => {
   try {
     const { heading, subheading, others, adryter, chatText, chatLink, chatLinkText } = req.body;
@@ -35,10 +35,10 @@ router.put('/', async (req, res) => {
   }
 });
 
-// POST /api/uniquepage/list-item - add an item to a list (others or adryter)
+
 router.post('/list-item', async (req, res) => {
   try {
-    const { list, value } = req.body; // list: 'others' or 'adryter'
+    const { list, value } = req.body; 
     if (!['others', 'adryter'].includes(list)) {
       return res.status(400).json({ error: 'Invalid list name' });
     }
@@ -54,10 +54,10 @@ router.post('/list-item', async (req, res) => {
   }
 });
 
-// DELETE /api/uniquepage/list-item - remove an item from a list by index and list name
+
 router.delete('/list-item', async (req, res) => {
   try {
-    const { list, index } = req.body; // list: 'others' or 'adryter', index: number
+    const { list, index } = req.body; 
     if (!['others', 'adryter'].includes(list)) {
       return res.status(400).json({ error: 'Invalid list name' });
     }

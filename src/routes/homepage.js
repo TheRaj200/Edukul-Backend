@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const HomePage = require('../models/HomePage');
 
-// Update or create HomePage content
+
 router.put('/', async (req, res) => {
   const { heading, paragraph, buttonText } = req.body;
   try {
@@ -14,7 +14,7 @@ router.put('/', async (req, res) => {
       homePage.buttonText = buttonText;
       await homePage.save();
     } else {
-      // Create new document
+  
       homePage = new HomePage({ heading, paragraph, buttonText });
       await homePage.save();
     }
@@ -24,7 +24,7 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Get HomePage content
+
 router.get('/', async (req, res) => {
   try {
     const homePage = await HomePage.findOne();

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const FaqPage = require('../models/FaqPage');
 
-// GET /api/faqpage/ - fetch FAQ page data
+
 router.get('/', async (req, res) => {
   try {
     const data = await FaqPage.findOne();
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/faqpage/ - update or create FAQ page data
+
 router.put('/', async (req, res) => {
   try {
     const { heading, faqs } = req.body;
@@ -30,7 +30,6 @@ router.put('/', async (req, res) => {
   }
 });
 
-// POST /api/faqpage/faq - add a new FAQ
 router.post('/faq', async (req, res) => {
   try {
     const { question, answer } = req.body;
@@ -50,7 +49,7 @@ router.post('/faq', async (req, res) => {
   }
 });
 
-// DELETE /api/faqpage/faq - remove an FAQ by index
+
 router.delete('/faq', async (req, res) => {
   try {
     const { index } = req.body;

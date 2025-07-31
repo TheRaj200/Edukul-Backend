@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const TestimonialsPage = require('../models/TestimonialsPage');
 
-// Update or create TestimonialsPage content
+
 router.put('/', async (req, res) => {
   const { label, heading, testimonials } = req.body;
   try {
@@ -22,7 +22,7 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Get TestimonialsPage content
+
 router.get('/', async (req, res) => {
   try {
     const testimonialsPage = await TestimonialsPage.findOne();
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Delete a testimonial by index
+
 router.delete('/:index', async (req, res) => {
   const idx = parseInt(req.params.index, 10);
   try {

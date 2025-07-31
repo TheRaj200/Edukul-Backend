@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ProgressPage = require('../models/ProgressPage');
 
-// Update or create ProgressPage content
+
 router.put('/', async (req, res) => {
   const { tagline, heading, subheading, bars } = req.body;
   try {
@@ -23,7 +23,7 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Get ProgressPage content
+
 router.get('/', async (req, res) => {
   try {
     const progressPage = await ProgressPage.findOne();

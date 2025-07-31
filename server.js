@@ -17,19 +17,19 @@ const testimonialsPageRoutes = require('./src/routes/testimonialspage.js');
 const startPageRoute = require('./src/routes/startpage.js');
 const uniquePageRoute = require('./src/routes/uniquepage.js');
 const faqPageRoute = require('./src/routes/faqpage.js');
-const subscribePageRoutes = require('./src/routes/subscribepage');
-const footerPageRoutes = require('./src/routes/footerpage');
-const blogPageRoutes = require('./src/routes/blogpage');
-const navbarPageRoutes = require('./src/routes/navbarpage');
+const subscribePageRoutes = require('./src/routes/subscribepage.js');
+const footerPageRoutes = require('./src/routes/footerpage.js');
+const blogPageRoutes = require('./src/routes/blogpage.js');
+const navbarPageRoutes = require('./src/routes/navbarpage.js');
 
-// Load environment variables
+
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*', // Development ke liye, production me specific origin
+    origin: '*', 
     methods: ['GET', 'POST']
   }
 });
@@ -38,11 +38,11 @@ app.set('io', io);
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/adryter';
 
-// Middleware
+
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Routes
+
 app.use('/api', authRoutes);
 app.use('/api', messagesRoutes);
 app.use('/api/homepage', homepageRoutes);
@@ -60,12 +60,12 @@ app.use('/api/footerpage', footerPageRoutes);
 app.use('/api/blogpage', blogPageRoutes);
 app.use('/api/navbarpage', navbarPageRoutes);
 
-// Health check endpoint
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend is running!' });
 });
 
-// Connect to MongoDB and start server
+
 connectDB(MONGODB_URI).then(() => {
   server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

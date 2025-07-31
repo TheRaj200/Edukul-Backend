@@ -25,14 +25,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// GET /api/blogpage/slug/:slug - fetch single blog by slug
+
 router.get('/slug/:slug', async (req, res) => {
   try {
     const blog = await BlogPage.findOne({ slug: req.params.slug });
     if (!blog) {
       return res.status(404).json({ success: false, message: 'Blog not found.' });
     }
-    // Increment views
+ 
     blog.views += 1;
     await blog.save();
     res.status(200).json({ success: true, data: blog });
@@ -41,12 +41,12 @@ router.get('/slug/:slug', async (req, res) => {
   }
 });
 
-// POST /api/blogpage/ - create new blog
+
 router.post('/', async (req, res) => {
-  const { title, author, date, image, desc, fullContent, category } = req.body;
+  const { title, author, date, image, desc, fullContent, category, tags } = req.body;
   
   try {
-    // Validate required fields
+  
     if (!title || !author || !date || !image || !desc || !fullContent || !category) {
       return res.status(400).json({ 
         success: false, 
@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    // Validate category
+
     const validCategories = ['Video Editing', 'Social Media Marketing', 'Design', 'Other'];
     if (!validCategories.includes(category)) {
       return res.status(400).json({ 
@@ -70,7 +70,8 @@ router.post('/', async (req, res) => {
       image,
       desc: desc.trim(),
       fullContent,
-      category
+      category,
+      tags: tags || []
     });
     
     await blog.save();
@@ -90,9 +91,9 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/blogpage/:id - update blog
+
 router.put('/:id', async (req, res) => {
-  const { title, author, date, image, desc, fullContent, category, isPublished, featured } = req.body;
+  const { title, author, date, image, desc, fullContent, category, isPublished, featured, tags } = req.body;
   
   try {
     const blog = await BlogPage.findById(req.params.id);
@@ -109,6 +110,7 @@ router.put('/:id', async (req, res) => {
     blog.category = category || blog.category;
     blog.isPublished = isPublished !== undefined ? isPublished : blog.isPublished;
     blog.featured = featured !== undefined ? featured : blog.featured;
+    blog.tags = tags || blog.tags;
     
     // Regenerate slug if title changed
     if (title && title !== blog.title) {
@@ -119,7 +121,7 @@ router.put('/:id', async (req, res) => {
         .replace(/-+/g, '-')
         .trim('-');
       
-      // Add timestamp to ensure uniqueness
+      
       if (slug) {
         slug = slug + '-' + Date.now();
       }
@@ -138,7 +140,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/blogpage/:id - delete blog
+
 router.delete('/:id', async (req, res) => {
   try {
     const blog = await BlogPage.findByIdAndDelete(req.params.id);
@@ -151,7 +153,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// GET /api/blogpage/category/:category - fetch blogs by category
+
 router.get('/category/:category', async (req, res) => {
   try {
     const blogs = await BlogPage.find({ 
@@ -164,7 +166,7 @@ router.get('/category/:category', async (req, res) => {
   }
 });
 
-// GET /api/blogpage/featured/featured - fetch featured blogs
+
 router.get('/featured/featured', async (req, res) => {
   try {
     const blogs = await BlogPage.find({ 
@@ -177,4 +179,4 @@ router.get('/featured/featured', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;

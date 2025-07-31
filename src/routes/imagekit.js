@@ -10,7 +10,7 @@ const imagekit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
 });
 
-// Route to upload image (expects base64 string in req.body.file)
+
 router.post('/upload', async (req, res) => {
   const { file, fileName } = req.body;
   if (!file || !fileName) {
@@ -18,7 +18,7 @@ router.post('/upload', async (req, res) => {
   }
   try {
     const response = await imagekit.upload({
-      file, // base64 string or file buffer
+      file, 
       fileName,
     });
     res.status(200).json({ success: true, url: response.url });

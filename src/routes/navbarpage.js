@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   try {
     let navbar = await NavbarPage.findOne();
     if (!navbar) {
-      // Create default navbar if none exists
+   
       navbar = new NavbarPage();
       await navbar.save();
     }
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/navbarpage/ - update navbar content
+
 router.put('/', async (req, res) => {
   try {
     let navbar = await NavbarPage.findOne();

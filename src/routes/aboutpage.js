@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AboutPage = require('../models/AboutPage');
 
-// Update or create AboutPage content
+
 router.put('/', async (req, res) => {
   const { experience, tagline, heading, paragraph, stats } = req.body;
   try {
@@ -24,7 +24,7 @@ router.put('/', async (req, res) => {
   }
 });
 
-// Get AboutPage content
+
 router.get('/', async (req, res) => {
   try {
     const aboutPage = await AboutPage.findOne();

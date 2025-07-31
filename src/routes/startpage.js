@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const StartPage = require('../models/StartPage');
 
-// GET /api/startpage/ - fetch start page data
+
 router.get('/', async (req, res) => {
   try {
     const data = await StartPage.findOne();
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/startpage/ - update or create start page data
+
 router.put('/', async (req, res) => {
   try {
     const { steps } = req.body;
