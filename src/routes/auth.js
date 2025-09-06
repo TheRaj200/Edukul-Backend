@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 
-const ADMIN_EMAIL = 'admin@gmail.com';
-const ADMIN_PASSWORD = 'admin@123';
+const ADMIN_EMAIL = 'rajveer@adryter.com';
+const ADMIN_PASSWORD = 'Rajveer@1234';
 
 router.post('/login', (req, res) => {
   const { email, password } = req.body;

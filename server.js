@@ -21,6 +21,7 @@ const subscribePageRoutes = require('./src/routes/subscribepage.js');
 const footerPageRoutes = require('./src/routes/footerpage.js');
 const blogPageRoutes = require('./src/routes/blogpage.js');
 const navbarPageRoutes = require('./src/routes/navbarpage.js');
+const caseStudyRoutes = require('./src/routes/casestudy.js');
 
 
 dotenv.config();
@@ -29,18 +30,25 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*', 
-    methods: ['GET', 'POST']
+    origin: ["http://localhost:3000", "https://adryter.com", "https://www.adryter.com"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
   }
 });
 app.set('io', io);
 
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/adryter';
+const MONGODB_URI = process.env.MONGODB_URI ;
 
 
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(cors({
+  origin: ["http://localhost:3000", "https://adryter.com", "https://www.adryter.com"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+app.use(express.json({ limit: '10gb' }));
 
 
 app.use('/api', authRoutes);
@@ -59,6 +67,7 @@ app.use('/api/subscribepage', subscribePageRoutes);
 app.use('/api/footerpage', footerPageRoutes);
 app.use('/api/blogpage', blogPageRoutes);
 app.use('/api/navbarpage', navbarPageRoutes);
+app.use('/api/casestudy', caseStudyRoutes);
 
 
 app.get('/api/health', (req, res) => {
@@ -72,4 +81,4 @@ connectDB(MONGODB_URI).then(() => {
   });
 });
 
-module.exports = { io }; 
+module.exports = { io };

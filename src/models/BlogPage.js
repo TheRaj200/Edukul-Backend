@@ -42,6 +42,14 @@ const BlogPageSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  scheduledFor: {
+    type: Date,
+    default: null
+  },
+  isScheduled: {
+    type: Boolean,
+    default: false
+  },
   views: {
     type: Number,
     default: 0

@@ -4,17 +4,15 @@ const ProgressPage = require('../models/ProgressPage');
 
 
 router.put('/', async (req, res) => {
-  const { tagline, heading, subheading, bars } = req.body;
+  const { tagline,  progressItems } = req.body;
   try {
     let progressPage = await ProgressPage.findOne();
     if (progressPage) {
       progressPage.tagline = tagline;
-      progressPage.heading = heading;
-      progressPage.subheading = subheading;
-      progressPage.bars = bars;
+      progressPage.progressItems = progressItems;
       await progressPage.save();
     } else {
-      progressPage = new ProgressPage({ tagline, heading, subheading, bars });
+      progressPage = new ProgressPage({ tagline, progressItems });
       await progressPage.save();
     }
     res.status(200).json({ success: true, data: progressPage });
@@ -36,4 +34,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;

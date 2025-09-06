@@ -2,10 +2,51 @@ const express = require('express');
 const router = express.Router();
 const BlogPage = require('../models/BlogPage');
 
-// GET /api/blogpage/ - fetch all blogs
+// GET /api/blogpage/ - fetch all published blogs
 router.get('/', async (req, res) => {
   try {
+    const currentDate = new Date();
+    
+    // Find blogs that are either:
+    // 1. Published normally (isPublished: true)
+    // 2. Scheduled and their scheduled time has passed (isScheduled: true AND scheduledFor <= currentDate)
+    const blogs = await BlogPage.find({
+      $or: [
+        { isPublished: true },
+        { 
+          isScheduled: true, 
+          scheduledFor: { $lte: currentDate } 
+        }
+      ]
+    }).sort({ createdAt: -1 });
+    
+    // Auto-publish scheduled blogs whose time has passed
+    const scheduledBlogs = blogs.filter(blog => 
+      blog.isScheduled && 
+      blog.scheduledFor <= currentDate && 
+      !blog.isPublished
+    );
+    
+    // Update the scheduled blogs to published if their time has passed
+    if (scheduledBlogs.length > 0) {
+      for (const blog of scheduledBlogs) {
+        blog.isPublished = true;
+        await blog.save();
+      }
+    }
+    
+    res.status(200).json({ success: true, data: blogs });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/blogpage/all - fetch all blogs including future scheduled ones
+router.get('/all', async (req, res) => {
+  try {
+    // Get all blogs including scheduled ones that will be published in the future
     const blogs = await BlogPage.find().sort({ createdAt: -1 });
+    
     res.status(200).json({ success: true, data: blogs });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
@@ -43,7 +84,7 @@ router.get('/slug/:slug', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
-  const { title, author, date, image, desc, fullContent, category, tags } = req.body;
+  const { title, author, date, image, desc, fullContent, category, tags, scheduledFor, isScheduled } = req.body;
   
   try {
   
@@ -71,7 +112,10 @@ router.post('/', async (req, res) => {
       desc: desc.trim(),
       fullContent,
       category,
-      tags: tags || []
+      tags: tags || [],
+      scheduledFor: scheduledFor || null,
+      isScheduled: isScheduled || false,
+      isPublished: isScheduled ? false : true
     });
     
     await blog.save();
@@ -93,7 +137,7 @@ router.post('/', async (req, res) => {
 
 
 router.put('/:id', async (req, res) => {
-  const { title, author, date, image, desc, fullContent, category, isPublished, featured, tags } = req.body;
+  const { title, author, date, image, desc, fullContent, category, isPublished, featured, tags, scheduledFor, isScheduled } = req.body;
   
   try {
     const blog = await BlogPage.findById(req.params.id);
@@ -108,7 +152,22 @@ router.put('/:id', async (req, res) => {
     blog.desc = desc || blog.desc;
     blog.fullContent = fullContent || blog.fullContent;
     blog.category = category || blog.category;
-    blog.isPublished = isPublished !== undefined ? isPublished : blog.isPublished;
+    
+    // Handle scheduling
+    if (scheduledFor !== undefined) {
+      blog.scheduledFor = scheduledFor;
+    }
+    
+    if (isScheduled !== undefined) {
+      blog.isScheduled = isScheduled;
+      // If blog is scheduled, set isPublished to false
+      if (isScheduled) {
+        blog.isPublished = false;
+      }
+    } else {
+      blog.isPublished = isPublished !== undefined ? isPublished : blog.isPublished;
+    }
+    
     blog.featured = featured !== undefined ? featured : blog.featured;
     blog.tags = tags || blog.tags;
     

@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const ServiceCardSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  desc: { type: String, required: true }
+  desc: { type: String, required: true },
+  videoUrl: { type: String, default: '' }
 }, { _id: false });
 
 const ServicesPageSchema = new mongoose.Schema({
@@ -12,4 +13,4 @@ const ServicesPageSchema = new mongoose.Schema({
   discussLink: { type: String, required: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model('ServicesPage', ServicesPageSchema); 
+module.exports = mongoose.model('ServicesPage', ServicesPageSchema);
