@@ -22,6 +22,9 @@ const footerPageRoutes = require('./src/routes/footerpage.js');
 const blogPageRoutes = require('./src/routes/blogpage.js');
 const navbarPageRoutes = require('./src/routes/navbarpage.js');
 const caseStudyRoutes = require('./src/routes/casestudy.js');
+const jobsRoutes = require('./src/routes/jobs.js');
+const jobApplicationsRoutes = require('./src/routes/jobApplications.js');
+const applicationQuestionsRoutes = require('./src/routes/applicationQuestions.js');
 
 
 dotenv.config();
@@ -31,7 +34,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ["http://localhost:3000", "https://adryter.com", "https://www.adryter.com"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]
   }
@@ -45,10 +48,12 @@ const MONGODB_URI = process.env.MONGODB_URI ;
 app.use(cors({
   origin: ["http://localhost:3000", "https://adryter.com", "https://www.adryter.com"],
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(express.json({ limit: '10gb' }));
+
+app.use('/uploads', express.static('src/uploads'));
 
 
 app.use('/api', authRoutes);
@@ -68,6 +73,9 @@ app.use('/api/footerpage', footerPageRoutes);
 app.use('/api/blogpage', blogPageRoutes);
 app.use('/api/navbarpage', navbarPageRoutes);
 app.use('/api/casestudy', caseStudyRoutes);
+app.use('/api/jobs', jobsRoutes);
+app.use('/api/job-applications', jobApplicationsRoutes);
+app.use('/api/application-questions', applicationQuestionsRoutes);
 
 
 app.get('/api/health', (req, res) => {

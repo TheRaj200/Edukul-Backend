@@ -13,6 +13,7 @@
     "express": "^4.21.2",
     "imagekit": "^6.0.0",
     "mongoose": "^7.6.1",
+    "multer": "^2.0.2",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
   },
