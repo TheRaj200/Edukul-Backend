@@ -10,13 +10,7 @@ router.post('/', async (req, res) => {
 
     // Basic required validation
     if (!data.fullName || !data.email || !data.phone || !data.examMode || !data.examDate) {
-      console.warn('Registration validation failed - missing required fields:', {
-        fullName: !!data.fullName,
-        email: !!data.email,
-        phone: !!data.phone,
-        examMode: !!data.examMode,
-        examDate: !!data.examDate,
-      });
+      
       return res.status(400).json({ success: false, message: 'Missing required fields' });
     }
 
