@@ -7,9 +7,6 @@ router.get('/', async (req, res) => {
   try {
     const currentDate = new Date();
     
-    // Find blogs that are either:
-    // 1. Published normally (isPublished: true)
-    // 2. Scheduled and their scheduled time has passed (isScheduled: true AND scheduledFor <= currentDate)
     const blogs = await BlogPage.find({
       $or: [
         { isPublished: true },
