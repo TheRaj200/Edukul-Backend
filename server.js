@@ -6,6 +6,7 @@ const authRoutes = require('./src/routes/auth.js');
 const imagekitRoutes = require('./src/routes/imagekit.js');
 const blogPageRoutes = require('./src/routes/blogpage.js');
 const registrationRoutes = require('./src/routes/registration.js');
+const getInTouchRoutes = require('./src/routes/getintouch.js');
 
 
 dotenv.config();
@@ -31,6 +32,7 @@ app.use('/api', authRoutes);
 app.use('/api/imagekit', imagekitRoutes);
 app.use('/api/blogpage', blogPageRoutes);
 app.use('/api/registration', registrationRoutes);
+app.use('/api/getintouch', getInTouchRoutes);
 
 
 
